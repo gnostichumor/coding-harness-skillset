@@ -1,0 +1,55 @@
+# Decision Log
+
+Chronological record of architecture/design decisions and the rationale
+behind them, so future sessions don't have to re-derive "why." Full detail
+for stack/deployment/core-logic decisions lives in `docs/architecture.md`;
+this file is the compressed "what changed and why," in order.
+
+This is a decision log, not a task tracker — task-level work lives in `bd`
+(`bd ready` / `bd list`). See the last boilerplate entry below for why.
+
+Each entry: **what changed**, a **Why:** line (the constraint/reason
+behind it), and a pointer to where the full detail lives. Keep entries
+short — this file is a compressed index, not a rewrite of architecture.md.
+
+---
+
+### {{DATE}} — Stack decision: {{STACK_ONE_LINER}}
+
+**Why:** {{STACK_RATIONALE}}
+→ `docs/architecture.md` §1
+
+### {{DATE}} — Config split: {{CONFIG_FILE}} (static tuning) vs {{STATE_STORE}} (mutable state)
+
+**Why:** static tuning and user/application-generated state have
+different lifecycles and different "source of truth" needs — mixing them
+in one file makes the config file into a de facto database.
+→ `docs/architecture.md` §3
+
+<!-- Add a Frontend/API boundary rule entry here ONLY if the project has
+     both a UI and API and docs/architecture.md §4 exists. Delete this
+     block otherwise. -->
+### {{DATE}} — Frontend/API boundary rule enforced
+
+**Why:** {{BOUNDARY_RULE_RATIONALE}}
+→ `docs/architecture.md` §4
+
+### {{DATE}} — {{CORE_DIFFERENTIATOR_NAME}}: {{CORE_DIFFERENTIATOR_ONE_LINER}}
+
+**Why:** {{CORE_DIFFERENTIATOR_RATIONALE}}
+→ `docs/architecture.md` §5{{CORE_DIFFERENTIATOR_PRD_POINTER}}
+
+### {{DATE}} — This repo's own development is tracked in `bd`, not a markdown feature list
+
+**Why:** the harness-engineering methodology calls for a structured
+feature list with a triple structure (Behavior/Verification/State) and a
+controlled state machine (`not_started → active → passing`) as a harness
+primitive. Rather than build a parallel `FEATURES.md`/`PROGRESS.md` for
+that, this repo uses `bd` (Beads) directly: PRD requirements became bd
+epics/issues (see `bd ready`), each issue's `--acceptance` field carries
+the Behavior/Verification/State triple, and `bd`'s own status field
+(`open` → `in_progress` → `closed`) is the state machine. This dogfoods
+disciplined tracking and follows the beads skill's own explicit rule:
+"Do not create markdown TODO files as the source of truth when Beads is
+available." WIP=1 is enforced by `.claude/hooks/bd-wip-gate.sh`.
+→ `AGENTS.md`, `CLAUDE.md`, `.claude/hooks/bd-wip-gate.sh`

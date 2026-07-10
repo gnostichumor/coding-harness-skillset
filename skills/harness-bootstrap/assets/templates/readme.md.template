@@ -1,0 +1,29 @@
+# {{PROJECT_NAME}}
+
+{{ONE_LINE_PITCH}}
+
+**Status:** pre-implementation. This repo currently holds the harness
+(agent instructions, decision log, quality standards) and the `bd` issue
+tracker seeded from the PRD — no application code yet.
+
+## Start here
+
+- [{{PRD_PATH}}]({{PRD_PATH}}) — product requirements
+- [`docs/architecture.md`](docs/architecture.md) — implementation decisions
+- [`docs/quality-standards.md`](docs/quality-standards.md) — Definition of Done, verification gates
+- [`DECISIONS.md`](DECISIONS.md) — chronological decision log with rationale
+- [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) — agent instructions
+
+## Task tracking
+
+This repo tracks its own development in [`bd` (Beads)](https://github.com/gastownhall/beads), not a markdown TODO list:
+
+```bash
+bd ready      # what's unblocked right now
+bd list       # everything, including blocked work
+bd show <id>  # an issue's full Behavior/Verification/State spec
+```
+
+## Deployment
+
+{{DEPLOYMENT_ONE_LINER}}

@@ -57,5 +57,5 @@ harness-engineering/
 
 ## NOTES
 
-- The `harness-bootstrap` skill lives at `~/.claude/skills/harness-bootstrap/SKILL.md` (user-level install), not in this repo. This repo's `evals/` tests that skill.
+- The `harness-bootstrap` skill is version-controlled in `skills/harness-bootstrap/` and installable to `~/.claude/skills/harness-bootstrap/`. The user-level install is the runtime copy; the repo copy is the authoritative source. This repo's `evals/` tests that skill.
 - `evals/harness-bootstrap-skill/runs/` is 99% of this repo's file count — all generated eval data, not manually maintained content.
