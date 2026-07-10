@@ -33,8 +33,11 @@ available on this machine):
 | Three-layer termination | Self-check (agent) → Verification (executable command) → Validation (external/live confirmation) — all three required |
 | Clean state | End of session: committed, state files/issue tracker accurate, no broken tests |
 
-**Bundled assets** (all paths relative to this skill's directory,
-`~/.claude/skills/harness-bootstrap/`):
+**Bundled assets** — the authoritative source is version-controlled at
+`skills/harness-bootstrap/assets/` in the harness-engineering repo; at
+runtime this skill is installed to `~/.claude/skills/harness-bootstrap/`
+(all paths below are relative to whichever of those two locations the
+skill is being invoked from):
 ```
 assets/hooks/bd-wip-gate.sh       # PreToolUse Bash hook, WIP=1 gate (language-agnostic, copy verbatim)
 assets/hooks/lint-on-save.sh      # PostToolUse Edit|Write hook, dispatches by extension
@@ -87,6 +90,10 @@ Fill every `{{TOKEN}}` using the stack decided in step 1. The Session Start Chec
 
 ## Step 4 — Install verification hooks
 
+Determine the skill's asset directory (resolve relative to this SKILL.md's
+location — at runtime that's `~/.claude/skills/harness-bootstrap/assets/`;
+if invoked from the repo it's `skills/harness-bootstrap/assets/`):
+
 ```bash
 mkdir -p .claude/hooks
 cp ~/.claude/skills/harness-bootstrap/assets/hooks/*.sh .claude/hooks/
@@ -122,7 +129,7 @@ From `assets/templates/`, filling every `{{TOKEN}}` and deleting every `<!-- HTM
 
 ## Step 6 — Decompose the PRD into bd epics/issues
 
-This is the step requiring the most judgment — there's no fixed script, only a rubric. `source ~/.claude/skills/harness-bootstrap/assets/scripts/mkid-helper.sh` for the `mkid()` helper (has the `set -u` empty-array bug already fixed — don't reinvent it) and follow its rubric comments. Key rules, stated again because they're easy to get wrong under time pressure:
+This is the step requiring the most judgment — there's no fixed script, only a rubric. `source` the `mkid-helper.sh` from this skill's `assets/scripts/` directory (at runtime: `~/.claude/skills/harness-bootstrap/assets/scripts/mkid-helper.sh`; if invoked from the repo: `skills/harness-bootstrap/assets/scripts/mkid-helper.sh`) — it has the `set -u` empty-array bug already fixed, don't reinvent it — and follow its rubric comments. Key rules, stated again because they're easy to get wrong under time pressure:
 
 1. **Every epic is top-level.** Never pass one epic's ID as another epic's `--parent` — that's a hierarchy bug (nests an epic inside an epic), not a build-order dependency. Cross-epic build order is expressed *only* via `bd dep add <later-epic> <earlier-epic>`.
 2. **Every requirement/feature issue's `--parent` is its owning epic** (flat, one level below the epic). Sequencing between sibling features in the same epic is `bd dep add`, never parent-chaining one sibling onto the previous one.
