@@ -1,0 +1,99 @@
+# Quality Standards & Definition of Done
+
+**Companion docs:** {{PRD_PATH}} (requirements), `docs/architecture.md`
+(implementation decisions). This doc is the harness's Feedback subsystem:
+what "done" means and how it's checked, mechanically — not by feeling.
+
+---
+
+## 1. Definition of Done
+
+Every bd issue must have a Definition of Done recorded in its
+`--acceptance` field before it's claimed. Conditions must be **verifiable
+by command**, not by feeling — this is the single highest-leverage rule
+in this document.
+
+```
+- [ ] <the behavior, stated concretely>
+- [ ] {{TEST_COMMAND}} passes (new tests for the behavior + no regressions)
+- [ ] {{LINT_COMMAND}} clean
+- [ ] {{TYPECHECK_COMMAND}} clean
+- [ ] <validation step — see §2, Layer 3>
+```
+
+One Definition of Done per issue. Don't let an issue accumulate multiple
+unrelated completion criteria — split it into dependent bd issues instead
+(`bd dep add`).
+
+---
+
+## 2. Three-Layer Termination Check
+
+A task is only done when all three layers pass. `.claude/hooks/stop-gate.sh`
+catches layer 2 automatically for changed source files once the project
+is scaffolded; layers 1 and 3 require the agent (or the user) to actually
+do them.
+
+| Layer | What it checks | For this project |
+|---|---|---|
+| **1. Self-check** | Agent's own assessment | Code compiles/imports, no obvious logic gaps, matches the issue's Behavior |
+| **2. Verification** | Executable commands | {{VERIFICATION_COMMANDS_INLINE}} — enforced automatically on `Stop` once scaffolding exists |
+| **3. Validation** | External confirmation | {{VALIDATION_APPROACH}} |
+
+**Rule:** don't close a bd issue on layer 1 alone. If layer 3 isn't
+practical for a given issue (e.g., a pure refactor), say so explicitly in
+the close reason rather than silently skipping it.
+
+---
+
+## 3. Verification-Validation Dual Gate
+
+- **Verification gate** (automated): {{VERIFICATION_COMMANDS_INLINE}}.
+  Anything that talks to the network/filesystem/external services must be
+  mockable so this gate never needs live access — see the PRD's TDD
+  requirement (if any) and `docs/architecture.md` §1.
+- **Validation gate** (does it solve the actual problem): {{VALIDATION_APPROACH}}.
+
+Both gates must pass. Neither substitutes for the other.
+
+---
+
+## 4. Testing Strategy
+
+| Layer | Tooling | Scope |
+|---|---|---|
+| Unit | {{TEST_FRAMEWORK}} | Core business logic ({{CORE_DIFFERENTIATOR_NAME}}), pure functions |
+| Integration | {{TEST_FRAMEWORK}} | API routes / module boundaries against a test datastore, mocked external calls |
+| Time-dependent (if any) | {{TIME_MOCK_TOOL}} | Anything threshold/schedule-based — must be deterministic, not wall-clock-dependent |
+| E2E (later) | manual / browser check | Full critical-path flow |
+
+<!-- If the core differentiator has known tricky edge cases (drawn from
+     docs/architecture.md §5's spelled-out rule), list them here as
+     required test fixtures -- don't let the happy path be the only
+     coverage. -->
+
+---
+
+## 5. WIP=1 and Verified Completion Rate
+
+- Only one bd issue `in_progress` at a time — mechanically enforced by
+  `.claude/hooks/bd-wip-gate.sh`, which denies a second `bd update --claim`
+  while one is already claimed.
+- Verified Completion Rate (VCR) = closed-with-passing-verification /
+  claimed. If you claim an issue and can't get it to a real
+  Definition-of-Done pass, don't claim the next one. Report the blocker
+  (label it `human` — `bd update <id> --labels human`, then `bd human list`
+  surfaces it — or a comment) instead of moving on.
+
+---
+
+## 6. Clean State / Session-Close Checklist
+
+Beyond bd's own session-completion protocol (see AGENTS.md's managed
+Beads block), before ending a session that touched code:
+
+- [ ] `git status` clean or changes are staged with a clear reason to leave them uncommitted
+- [ ] {{TEST_COMMAND}} passes (once scaffolded) — `.claude/hooks/stop-gate.sh` blocks Stop otherwise
+- [ ] bd issue status matches reality (`in_progress` only if genuinely still being worked; closed issues have a real `--reason`)
+- [ ] Any new architecture decision is recorded in `DECISIONS.md`, not left implicit
+- [ ] Next session's starting point is discoverable via `bd ready` alone — no tribal knowledge required
