@@ -1,7 +1,7 @@
 ---
 name: verification-and-lifecycle
 description: Implement verification gates, observability layers, session lifecycle management, and clean state protocols. Covers Lectures 09-12 of Learn Harness Engineering.
-trigger: "When agents declare victory prematurely, lack verification feedback, need observability, or leave messy state between sessions."
+when_to_use: "When agents declare victory prematurely, lack verification feedback, need observability, or leave messy state between sessions."
 ---
 
 # Verification & Lifecycle

@@ -1,7 +1,7 @@
 ---
 name: harness-bootstrap
 description: One-shot creation of a full agent harness (tech-stack decision, AGENTS.md/CLAUDE.md, bd issue tracker seeded from the PRD, verification hooks, quality-standards/decision-log docs) for a brand-new project, given only a PRD as input. Applies the harness-engineering methodology (five-subsystem model, feature-list triple structure, WIP=1, three-layer termination) via the harness-foundation/state-and-scope/verification-and-lifecycle skills, plus concrete bd/hook/template mechanics those skills don't cover.
-trigger: "When the user asks to bootstrap/scaffold/spin up a project harness for a new repo that has a PRD but no code yet, or says 'set up the harness' / 'do the harness-engineering setup' for a project."
+when_to_use: "When the user asks to bootstrap/scaffold/spin up a project harness for a new repo that has a PRD but no code yet, or says 'set up the harness' / 'do the harness-engineering setup' for a project."
 ---
 
 # Harness Bootstrap

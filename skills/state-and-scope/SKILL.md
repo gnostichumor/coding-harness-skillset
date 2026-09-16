@@ -1,7 +1,7 @@
 ---
 name: state-and-scope
 description: Manage agent state persistence, WIP limits, feature lists, and initialization phases. Covers Lectures 05-08 of Learn Harness Engineering.
-trigger: "When agents lose context across sessions, overreach on tasks, fail to complete features, or need structured initialization."
+when_to_use: "When agents lose context across sessions, overreach on tasks, fail to complete features, or need structured initialization."
 ---
 
 # State & Scope

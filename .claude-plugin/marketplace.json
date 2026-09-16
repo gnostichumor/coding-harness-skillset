@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace-manifest.json",
+  "name": "coding-harness-skillset-marketplace",
+  "description": "Marketplace hosting the Coding Harness Skillset plugin — harness-engineering methodology skills and a PRD-to-harness bootstrap skill.",
+  "owner": {
+    "name": "Matt Preston",
+    "email": "preston.matt86@gmail.com",
+    "url": "https://github.com/gnostichumor"
+  },
+  "version": "0.1.0",
+  "plugins": [
+    {
+      "name": "coding-harness-skillset",
+      "source": "./",
+      "description": "Skills for building production-grade agent harnesses: the five-subsystem model, state/WIP/feature-list control, verification gates and session lifecycle, the six-project reference architecture, and one-shot project bootstrapping from a PRD.",
+      "version": "0.1.0"
+    }
+  ]
+}

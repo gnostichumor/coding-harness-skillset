@@ -1,7 +1,7 @@
 ---
 name: harness-foundation
 description: Build a production-grade agent harness from scratch using the five-subsystem model, diagnostic loop, and Definition of Done. Covers Lectures 01-04 of Learn Harness Engineering.
-trigger: "When building, auditing, or debugging an agent harness; when agent tasks fail despite a capable model; when context is insufficient or verification is missing."
+when_to_use: "When building, auditing, or debugging an agent harness; when agent tasks fail despite a capable model; when context is insufficient or verification is missing."
 ---
 
 # Harness Foundation

@@ -1,7 +1,7 @@
 ---
 name: harness-projects
 description: Execute the six progressive projects from Learn Harness Engineering. Covers project structure, agent-readable workspaces, multi-session continuity, incremental indexing, grounded QA, and runtime observability.
-trigger: "When executing the Learn Harness Engineering projects, building progressive harness capabilities, or implementing the full harness architecture."
+when_to_use: "When executing the Learn Harness Engineering projects, building progressive harness capabilities, or implementing the full harness architecture."
 ---
 
 # Harness Projects

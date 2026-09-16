@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "coding-harness-skillset",
+  "displayName": "Coding Harness Skillset",
+  "version": "0.1.0",
+  "description": "Skills for building production-grade agent harnesses: the five-subsystem model, state/WIP/feature-list control, verification gates and session lifecycle, the six-project reference architecture, and one-shot project bootstrapping from a PRD.",
+  "author": {
+    "name": "Matt Preston",
+    "email": "preston.matt86@gmail.com",
+    "url": "https://github.com/gnostichumor"
+  },
+  "homepage": "https://github.com/gnostichumor/coding-harness-skillset",
+  "repository": "https://github.com/gnostichumor/coding-harness-skillset",
+  "license": "MIT",
+  "keywords": [
+    "harness-engineering",
+    "agents",
+    "verification",
+    "bootstrap"
+  ]
+}
