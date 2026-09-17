@@ -1,6 +1,9 @@
 # Architecture Decisions: {{PROJECT_NAME}}
 
 **Status:** Decided (v1), pending scaffolding
+<!-- Brownfield: change the Status line above to something like "Decided
+     (v1), already implemented" -- this doc is documenting an existing,
+     working stack, not proposing one that's about to be built. -->
 **Companion doc:** {{PRD_PATH}} (product requirements — this doc is implementation)
 
 ---
@@ -14,7 +17,14 @@
      machine, a hard requirement from the PRD/user, avoiding a second
      toolchain, etc.). If you can't justify a row, that's a sign the
      choice needs more thought before committing it to a document a
-     future agent will treat as ground truth. -->
+     future agent will treat as ground truth.
+
+     Brownfield: every row's "Why" should point at the actual evidence
+     found on disk (e.g. "package.json + tsconfig.json already configure
+     this; it's the established convention, not a fresh choice"), not a
+     hypothetical rationale for a decision that was never actually made
+     fresh in this pass. Don't propose alternatives to an already-working
+     stack as part of a bootstrap pass. -->
 
 | Layer | Choice | Why |
 |---|---|---|

@@ -8,10 +8,10 @@ what "done" means and how it's checked, mechanically — not by feeling.
 
 ## 1. Definition of Done
 
-Every bd issue must have a Definition of Done recorded in its
-`--acceptance` field before it's claimed. Conditions must be **verifiable
-by command**, not by feeling — this is the single highest-leverage rule
-in this document.
+Every br issue must have a Definition of Done recorded in its
+`--acceptance-criteria` field before it's claimed. Conditions must be
+**verifiable by command**, not by feeling — this is the single
+highest-leverage rule in this document.
 
 ```
 - [ ] <the behavior, stated concretely>
@@ -22,8 +22,8 @@ in this document.
 ```
 
 One Definition of Done per issue. Don't let an issue accumulate multiple
-unrelated completion criteria — split it into dependent bd issues instead
-(`bd dep add`).
+unrelated completion criteria — split it into dependent br issues instead
+(`br dep add`).
 
 ---
 
@@ -40,7 +40,7 @@ do them.
 | **2. Verification** | Executable commands | {{VERIFICATION_COMMANDS_INLINE}} — enforced automatically on `Stop` once scaffolding exists |
 | **3. Validation** | External confirmation | {{VALIDATION_APPROACH}} |
 
-**Rule:** don't close a bd issue on layer 1 alone. If layer 3 isn't
+**Rule:** don't close a br issue on layer 1 alone. If layer 3 isn't
 practical for a given issue (e.g., a pure refactor), say so explicitly in
 the close reason rather than silently skipping it.
 
@@ -76,24 +76,25 @@ Both gates must pass. Neither substitutes for the other.
 
 ## 5. WIP=1 and Verified Completion Rate
 
-- Only one bd issue `in_progress` at a time — mechanically enforced by
-  `.claude/hooks/bd-wip-gate.sh`, which denies a second `bd update --claim`
-  while one is already claimed.
+- Only one br issue `in_progress` at a time — mechanically enforced
+  natively by `br` via the `in_progress` capacity cap in
+  `.beads/policy.yaml` (`hard: 1`), which rejects a second `br update
+  --claim` while one is already claimed.
 - Verified Completion Rate (VCR) = closed-with-passing-verification /
   claimed. If you claim an issue and can't get it to a real
   Definition-of-Done pass, don't claim the next one. Report the blocker
-  (label it `human` — `bd update <id> --labels human`, then `bd human list`
-  surfaces it — or a comment) instead of moving on.
+  (label it `human` — `br update <id> --labels human`, then `br list
+  --label human` surfaces it — or a comment) instead of moving on.
 
 ---
 
 ## 6. Clean State / Session-Close Checklist
 
-Beyond bd's own session-completion protocol (see AGENTS.md's managed
-Beads block), before ending a session that touched code:
+Beyond `br`'s own workflow (see AGENTS.md's beads-workflow section from
+`br agents --add`), before ending a session that touched code:
 
 - [ ] `git status` clean or changes are staged with a clear reason to leave them uncommitted
 - [ ] {{TEST_COMMAND}} passes (once scaffolded) — `.claude/hooks/stop-gate.sh` blocks Stop otherwise
-- [ ] bd issue status matches reality (`in_progress` only if genuinely still being worked; closed issues have a real `--reason`)
+- [ ] br issue status matches reality (`in_progress` only if genuinely still being worked; closed issues have a real `--reason`)
 - [ ] Any new architecture decision is recorded in `DECISIONS.md`, not left implicit
-- [ ] Next session's starting point is discoverable via `bd ready` alone — no tribal knowledge required
+- [ ] Next session's starting point is discoverable via `br ready` alone — no tribal knowledge required

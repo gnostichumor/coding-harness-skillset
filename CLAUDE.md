@@ -18,8 +18,8 @@ skills/
   harness-projects/            # The six progressive reference projects from the curriculum
   harness-bootstrap/           # Composes the four skills above into a concrete "bootstrap a new project" procedure
     assets/
-      hooks/                   # bd-wip-gate.sh, lint-on-save.sh, stop-gate.sh — copied verbatim into target projects
-      scripts/mkid-helper.sh   # bash helper for seeding bd issues per the epic/dependency rubric
+      hooks/                   # lint-on-save.sh, stop-gate.sh — copied verbatim into target projects (WIP=1 is enforced natively by br's capacity policy, not a hook)
+      scripts/mkid-helper.sh   # bash helper for seeding br (beads_rust) issues per the epic/dependency rubric
       settings.hooks.json      # hooks block merged into a target project's .claude/settings.json
       templates/               # *.template files with {{TOKEN}} placeholders, filled in per target project
 docs/
@@ -34,11 +34,14 @@ docs/
 
 The four methodology skills (`harness-foundation`, `state-and-scope`, `verification-and-lifecycle`, `harness-projects`) are the "why" — pure `SKILL.md` files with no bundled assets, meant to be read in that dependency order (later skills assume the concepts from earlier ones: five subsystems → state/WIP/feature-lists → verification gates/lifecycle → the projects that combine all of it).
 
-`harness-bootstrap` is the "how": a single skill that turns a PRD into a complete working agent harness in one pass (tech-stack decision doc, `AGENTS.md`/`CLAUDE.md`, a `bd`-seeded issue tree, verification hooks, quality-standards/decisions docs). It references the four methodology skills for rationale but is self-contained via a condensed cheat-sheet, so it still works if the other skills aren't installed on a given machine.
+`harness-bootstrap` is the "how": a single skill that turns a PRD (or an existing codebase's current state) into a complete working agent harness in one pass (tech-stack decision/detection doc, `AGENTS.md`/`CLAUDE.md`, a `br` (beads_rust)-seeded issue tree, verification hooks, quality-standards/decisions docs). It references the four methodology skills for rationale but is self-contained via a condensed cheat-sheet, so it still works if the other skills aren't installed on a given machine.
+
+It runs in two modes: **greenfield** (empty repo, PRD only — the stack is decided and the issue tree seeded from scratch) and **brownfield** (an existing repo with real code/tooling/conventions — the stack is detected from what's on disk rather than decided, existing docs/config are extended additively rather than overwritten, and the issue tree is seeded only for the gap between the PRD and what's already implemented).
 
 Key mechanics specific to `harness-bootstrap` (see `skills/harness-bootstrap/SKILL.md` for the full step-by-step):
-- It relies on `bd` (the beads issue tracker) as a hard dependency — `bd init` generates the base `AGENTS.md`/`CLAUDE.md`/`.claude/settings.json`, and the skill only *layers* project-specific content on top, never hand-writing those files from scratch.
-- Epics are always top-level; cross-epic sequencing is `bd dep add`, never epic-as-parent-of-epic. Getting this backwards (core-differentiator logic depending on the API layer rather than the reverse) is the most likely subtle bug, which is why the skill has an explicit `bd dep list` check for it.
+- It relies on `br` (beads_rust, https://github.com/Dicklesworthstone/beads_rust) as a hard dependency for issue tracking. Unlike the old `bd`, `br init` only creates `.beads/` (db + config + policy) — it does **not** scaffold `AGENTS.md`/`CLAUDE.md`/`.claude/settings.json` or commit anything automatically, so the skill is fully responsible for hand-writing those files (or layering onto them additively in the brownfield case), not just layering onto tool-generated versions of them.
+- WIP=1 is enforced natively by `br` itself via a capacity cap in `.beads/policy.yaml` (`workflow.capacity.statuses.in_progress.hard: 1`), not by a bespoke `PreToolUse` hook — this is stronger than the old hook because it can't be bypassed by invoking `br` a different way than the hook's regex expected.
+- Epics are always top-level; cross-epic sequencing is `br dep add`, never epic-as-parent-of-epic. Getting this backwards (core-differentiator logic depending on the API layer rather than the reverse) is the most likely subtle bug, which is why the skill has an explicit `br dep list` check for it.
 - Template files use `{{TOKEN}}` placeholders and `<!-- HTML comment -->` guidance blocks that must all be filled/deleted before the harness is considered done — the self-review checklist (step 9) greps for both.
 - Bundled assets live under `skills/harness-bootstrap/assets/` in this repo; at runtime the skill is installed to `~/.claude/skills/harness-bootstrap/` and all asset paths in the skill are relative to whichever of those two locations it's invoked from. **This repo's copy under `skills/harness-bootstrap/assets/` is the authoritative source** — the installed copy is a runtime artifact.
 
@@ -47,7 +50,7 @@ Key mechanics specific to `harness-bootstrap` (see `skills/harness-bootstrap/SKI
 - Every skill is exactly one `SKILL.md` file (filename is always `SKILL.md`, uppercase) with YAML frontmatter: `name`, `description`, `trigger`. `name` matches the containing directory.
 - Only `harness-bootstrap` has a supplemental `assets/` subtree; the four methodology skills are pure documentation with no bundled files.
 - When editing a methodology `SKILL.md`, keep it consistent with its source lecture summary in `docs/` — the skill is meant to be a condensed, actionable version of that document, not a divergent one.
-- When editing `skills/harness-bootstrap/assets/hooks/*.sh` or `mkid-helper.sh`, remember they get copied verbatim into other projects' repos — keep them dependency-light (they assume only `bash`, `jq`, and `bd` on PATH) and re-check the "smoke test with synthetic stdin" examples in `harness-bootstrap/SKILL.md` step 4 still match if you change hook behavior.
+- When editing `skills/harness-bootstrap/assets/hooks/*.sh` or `mkid-helper.sh`, remember they get copied verbatim into other projects' repos — keep them dependency-light (they assume only `bash`, `jq`, and `br` on PATH) and re-check the "smoke test with synthetic stdin" examples in `harness-bootstrap/SKILL.md` step 4 still match if you change hook behavior.
 
 ## Note on the existing AGENTS.md
 

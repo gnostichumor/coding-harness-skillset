@@ -3,8 +3,11 @@
 {{ONE_LINE_PITCH}}
 
 **Status:** pre-implementation. This repo currently holds the harness
-(agent instructions, decision log, quality standards) and the `bd` issue
+(agent instructions, decision log, quality standards) and the `br` issue
 tracker seeded from the PRD — no application code yet.
+<!-- Brownfield: replace this Status line with an honest statement of
+     what already exists (real code/tests/CI) instead of
+     "pre-implementation" -- delete this comment once done. -->
 
 ## Start here
 
@@ -16,12 +19,12 @@ tracker seeded from the PRD — no application code yet.
 
 ## Task tracking
 
-This repo tracks its own development in [`bd` (Beads)](https://github.com/gastownhall/beads), not a markdown TODO list:
+This repo tracks its own development in [`br` (beads_rust)](https://github.com/Dicklesworthstone/beads_rust), not a markdown TODO list:
 
 ```bash
-bd ready      # what's unblocked right now
-bd list       # everything, including blocked work
-bd show <id>  # an issue's full Behavior/Verification/State spec
+br ready      # what's unblocked right now
+br list       # everything, including blocked work
+br show <id>  # an issue's full Behavior/Verification/State spec
 ```
 
 ## Deployment

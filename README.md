@@ -3,7 +3,8 @@
 Claude Code skills for building production-grade agent harnesses, based on the
 Learn Harness Engineering curriculum: the five-subsystem model, state/WIP/
 feature-list control, verification gates and session lifecycle, and a
-one-shot skill that bootstraps a full harness from a PRD.
+one-shot skill that bootstraps a full harness from a PRD — or retrofits one
+onto an existing codebase.
 
 ## Skills
 
@@ -13,7 +14,7 @@ one-shot skill that bootstraps a full harness from a PRD.
 | `state-and-scope` | State persistence, WIP=1, feature lists, initialization phase (Lectures 05-08) |
 | `verification-and-lifecycle` | Three-layer termination, verification-validation dual gate, clean-state protocol (Lectures 09-12) |
 | `harness-projects` | The six progressive reference projects from the curriculum |
-| `harness-bootstrap` | One-shot harness creation (tech-stack decision, `AGENTS.md`/`CLAUDE.md`, `bd`-seeded issues, verification hooks) from a PRD, composing the four skills above |
+| `harness-bootstrap` | One-shot harness creation (tech-stack decision/detection, `AGENTS.md`/`CLAUDE.md`, `br` (beads_rust)-seeded issues, verification hooks) from a PRD or an existing repo, composing the four skills above |
 
 `docs/` contains the source lecture summaries each methodology skill is
 distilled from.

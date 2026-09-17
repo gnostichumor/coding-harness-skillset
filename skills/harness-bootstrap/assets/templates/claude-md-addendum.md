@@ -1,19 +1,25 @@
-<!-- Append everything below to CLAUDE.md, AFTER any existing bd-managed
-     BEGIN BEADS INTEGRATION / END BEADS INTEGRATION marker blocks that
-     `bd init`/`bd setup claude` generated. Never edit inside those
-     markers -- bd owns and regenerates them. Fill every {{TOKEN}} below;
-     leave no placeholder text OR guidance comments (including this one)
-     in the committed file -- delete every HTML comment in this template
-     once you've used its instructions. -->
+<!-- `br` (beads_rust) does not generate or manage any part of CLAUDE.md --
+     unlike the old `bd`, it has no concept of this file at all. Greenfield:
+     everything below IS the file (or the whole new-content block if
+     CLAUDE.md already exists for some other reason). Brownfield: append
+     this as new, clearly-headed section(s) below whatever's already there
+     -- never overwrite existing project-specific content. Fill every
+     {{TOKEN}} below; leave no placeholder text OR guidance comments
+     (including this one) in the committed file -- delete every HTML
+     comment in this template once you've used its instructions. -->
 
 ## Project Status
 
-**Pre-implementation.** As of this writing, only `docs/`, the bd issue
+**Pre-implementation.** As of this writing, only `docs/`, the br issue
 tracker, and this harness scaffolding exist — no application code, no
 tests, no Dockerfile, no CI (unless the tech-stack-decision step chose to
-scaffold a minimal tooling config alongside this). Run `bd ready` to see
+scaffold a minimal tooling config alongside this). Run `br ready` to see
 what's next. Don't skip ahead of the ready issue — the verification
 commands below don't exist until the scaffolding issue lands.
+<!-- Brownfield: replace this whole "Project Status" section with an
+     honest statement of what already exists (real code/tests/CI), not
+     "pre-implementation" -- this section only applies to a true
+     greenfield bootstrap. -->
 
 ## Session Start Checklist
 
@@ -21,22 +27,23 @@ Initialization and implementation optimize for different things — explore
 first, then execute (harness-engineering Lecture 06). Before writing any
 code, confirm all four:
 
-- [ ] **Can start?** `bd ready` shows an unblocked issue, and (once the
+- [ ] **Can start?** `br ready` shows an unblocked issue, and (once the
       scaffolding issue is closed) the project's declared dependency
       install command succeeds.
 - [ ] **Can test?** The verification commands in "Build & Test" below
       actually run (even if they don't exist yet, confirm *that* — don't
       assume).
 - [ ] **Can see progress?** `git status` is clean or its state is
-      understood; `bd list --status=in_progress` matches what you're
+      understood; `br list --status in_progress` matches what you're
       about to claim.
-- [ ] **Can pick up next steps?** `bd show <id>` on the ready issue has a
-      clear Definition of Done in `--acceptance` (Behavior/Verification/
-      State). If it doesn't, fix the issue before claiming it — don't guess.
+- [ ] **Can pick up next steps?** `br show <id>` on the ready issue has a
+      clear Definition of Done in `--acceptance-criteria` (Behavior/
+      Verification/State). If it doesn't, fix the issue before claiming
+      it — don't guess.
 
-Only after this checklist passes: `bd update <id> --claim` (WIP=1 is
-enforced by `.claude/hooks/bd-wip-gate.sh` — a second claim while one issue
-is `in_progress` will be denied).
+Only after this checklist passes: `br update <id> --claim` (WIP=1 is
+enforced natively by `br` itself via the `.beads/policy.yaml` capacity cap
+— a second claim while one issue is `in_progress` is rejected outright).
 
 ## Build & Test
 
@@ -74,10 +81,10 @@ requirements live in {{PRD_PATH}}. One-paragraph summary:
   - Config as source of truth: {{CONFIG_FILE}} = every static tunable;
     {{STATE_STORE}} = mutable runtime state. Never mix the two. Full
     rationale: docs/architecture.md §<N>.
-  - This project's own dev work is tracked in `bd`, not markdown. No
-    FEATURES.md/PROGRESS.md — `bd ready` / `bd list --status=in_progress`
-    is the live task list. See DECISIONS.md for why, and
-    .claude/hooks/bd-wip-gate.sh for the WIP=1 enforcement mechanism.
+  - This project's own dev work is tracked in `br` (beads_rust), not
+    markdown. No FEATURES.md/PROGRESS.md — `br ready` / `br list --status
+    in_progress` is the live task list. See DECISIONS.md for why, and
+    .beads/policy.yaml (capacity cap) for the WIP=1 enforcement mechanism.
   Add a Frontend/API boundary rule bullet if this project has both a UI
   and an API surface (see docs/architecture.md's boundary-rule section
   in the architecture template). Add stack-specific conventions (secrets
@@ -85,7 +92,7 @@ requirements live in {{PRD_PATH}}. One-paragraph summary:
 
 ## Definition of Done
 
-Every bd issue's `--acceptance` field should be a checklist of
+Every br issue's `--acceptance-criteria` field should be a checklist of
 **verifiable** conditions, not vibes. Full format and the three-layer
 termination check (self-check / verification / validation) live in
 `docs/quality-standards.md`. Minimal shape:

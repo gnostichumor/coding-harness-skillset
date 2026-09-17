@@ -5,8 +5,9 @@ behind them, so future sessions don't have to re-derive "why." Full detail
 for stack/deployment/core-logic decisions lives in `docs/architecture.md`;
 this file is the compressed "what changed and why," in order.
 
-This is a decision log, not a task tracker — task-level work lives in `bd`
-(`bd ready` / `bd list`). See the last boilerplate entry below for why.
+This is a decision log, not a task tracker — task-level work lives in `br`
+(beads_rust: `br ready` / `br list`). See the last boilerplate entry below
+for why.
 
 Each entry: **what changed**, a **Why:** line (the constraint/reason
 behind it), and a pointer to where the full detail lives. Keep entries
@@ -39,17 +40,18 @@ in one file makes the config file into a de facto database.
 **Why:** {{CORE_DIFFERENTIATOR_RATIONALE}}
 → `docs/architecture.md` §5{{CORE_DIFFERENTIATOR_PRD_POINTER}}
 
-### {{DATE}} — This repo's own development is tracked in `bd`, not a markdown feature list
+### {{DATE}} — This repo's own development is tracked in `br`, not a markdown feature list
 
 **Why:** the harness-engineering methodology calls for a structured
 feature list with a triple structure (Behavior/Verification/State) and a
-controlled state machine (`not_started → active → passing`) as a harness
+controlled state machine (`open → in_progress → closed`) as a harness
 primitive. Rather than build a parallel `FEATURES.md`/`PROGRESS.md` for
-that, this repo uses `bd` (Beads) directly: PRD requirements became bd
-epics/issues (see `bd ready`), each issue's `--acceptance` field carries
-the Behavior/Verification/State triple, and `bd`'s own status field
-(`open` → `in_progress` → `closed`) is the state machine. This dogfoods
-disciplined tracking and follows the beads skill's own explicit rule:
-"Do not create markdown TODO files as the source of truth when Beads is
-available." WIP=1 is enforced by `.claude/hooks/bd-wip-gate.sh`.
-→ `AGENTS.md`, `CLAUDE.md`, `.claude/hooks/bd-wip-gate.sh`
+that, this repo uses `br` (beads_rust) directly: PRD requirements became
+br epics/issues (see `br ready`), each issue's `--acceptance-criteria`
+field carries the Behavior/Verification/State triple, and `br`'s own
+status field (`open` → `in_progress` → `closed`) is the state machine.
+This dogfoods disciplined tracking and follows the same rule the original
+Beads project stated: don't create markdown TODO files as the source of
+truth when a structured tracker is available. WIP=1 is enforced natively
+by `br` via a capacity cap in `.beads/policy.yaml`, not by a hook.
+→ `AGENTS.md`, `CLAUDE.md`, `.beads/policy.yaml`
